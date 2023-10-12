@@ -1,20 +1,29 @@
-import task from "task.js";
+import createTask from "./task.js";
 
-export const list = (name) => {
-  listName = name;
-  taskList = [];
+const createList = (name) => {
+  let listName = name;
+  let taskList = [];
 
   const addTask = (id, name, description, dateToComplete) => {
-    taskList.push(task(id, name, description, dateToComplete));
+    taskList.push(createTask(id, name, description, dateToComplete));
+    console.log(taskList);
   };
 
   const removeTask = (id) => {
     taskList = taskList.filter((task) => {
+      console.log(
+        `removing task: ${taskList.findIndex((task) => {
+          task.getId();
+        })}`
+      );
       task.getId() !== id;
     });
   };
+  const getName = () => listName;
   const getTaskList = () => taskList;
   const isEmpty = () => taskList.length === 0;
 
-  return { addTask, removeTask, getTaskList, isEmpty };
+  return { addTask, removeTask, getName, getTaskList, isEmpty };
 };
+
+export default createList;

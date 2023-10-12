@@ -7,7 +7,7 @@ module.exports = {
     static: "./dist",
   },
   context: __dirname,
-  entry: { app: "./src/js/app.js" },
+  entry: "./src/js/app.js",
 
   output: {
     filename: "[name].bundle.js",
@@ -20,7 +20,6 @@ module.exports = {
       hash: true,
       template: "./src/templates/todolist.html",
       filename: "index.html",
-      chunks: ["app"],
     }),
   ],
   optimization: {

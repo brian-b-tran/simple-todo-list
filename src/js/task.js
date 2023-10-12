@@ -1,4 +1,4 @@
-export const createTask = (id, name, description, dateToComplete) => {
+const createTask = (id, name, description, dateToComplete) => {
   const taskId = id;
   let taskName = name;
   let taskDescription = description;
@@ -32,3 +32,5 @@ export const createTask = (id, name, description, dateToComplete) => {
     toggleComplete,
   };
 };
+
+export default createTask;
