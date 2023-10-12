@@ -1,0 +1,25 @@
+{
+  "name": "simple-todo-list",
+  "version": "1.0.0",
+  "description": "This repository holds the to do list project described in the javascript section of the Odin project. https://www.theodinproject.com/lessons/node-path-javascript-todo-list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --watch --mode=development",
+    "serve": "webpack serve --open",
+    "prod": "webpack --mode=production",
+    "build": "webpack --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "path": "^0.12.7",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
