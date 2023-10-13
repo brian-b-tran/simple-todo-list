@@ -1,4 +1,4 @@
-const createTask = (id, name, description, dateToComplete) => {
+const createTask = (id, name, description = "", dateToComplete = "") => {
   const taskId = id;
   let taskName = name;
   let taskDescription = description;

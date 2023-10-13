@@ -2,10 +2,71 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script
+      src="https://kit.fontawesome.com/185acf8382.js"
+      crossorigin="anonymous"
+    ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simple Todo List</title>
   </head>
   <body>
-    <div id="todolist"></div>
+    <div class="board-wrapper">
+      <div class="board-name">Board</div>
+      <div class="board">
+        <div class="lists">
+          <div class="list-title">
+            list 1
+            <div class="content-menu">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+          <div class="list-item add-task-btn">
+            <div class="list-item-content">
+              <div class="content-check-box">+</div>
+              <div class="content-text">Add a task</div>
+              <div class="content-menu"></div>
+            </div>
+          </div>
+          <div class="list">
+            <div class="list-item">
+              <div class="list-item-content">
+                <div class="content-check-box"><div class="circle"></div></div>
+                <div class="content-text"></div>
+                <div class="content-menu">
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lists add-list-btn">
+          <div>
+            <div>+</div>
+            add a new list
+          </div>
+        </div>
+      </div>
+
+      <div class="board-name board-add-btn">
+        Add a new Board
+        <div>+</div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="copyright">
+        Copyright &copy;
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        b-blots-tran
+        <a href="https://github.com/b-blots-tran">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
   </body>
 </html>

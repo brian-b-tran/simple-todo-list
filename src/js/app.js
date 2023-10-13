@@ -7,15 +7,15 @@ const board = (name) => {
   let boardLists = [];
 
   const addList = (listName) => {
-    boardLists.push(createList("list1"));
+    boardLists.push(createList(listName));
   };
 
-  return { addList, boardLists };
+  return { addList, boardLists, boardName };
 };
 
 const project1 = board("Project 1");
 project1.addList("list1");
-project1.boardLists[0].addTask(0, "task1", "first task", "some date");
-project1.boardLists[0].addTask(1, "task2", "second task", "some date");
-project1.boardLists[0].addTask(2, "task3", "third task", "some date");
+project1.boardLists[0].addTask("task1", "first task");
+project1.boardLists[0].addTask("task2", "second task", "some date");
+project1.boardLists[0].addTask("task3", "third task", "some date");
 console.log(project1.boardLists[0].getName());
