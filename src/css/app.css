@@ -43,7 +43,7 @@ body {
   justify-content: space-between;
   min-height: 100vh;
 }
-.board-wrapper {
+#board-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,6 +60,9 @@ body {
   color: var(--font-color);
 }
 .board-add-btn {
+  height: fit-content;
+  font-size: 2rem;
+  color: var(--font-color);
   text-align: center;
   width: 40%;
   padding: 10px 0;
@@ -70,6 +73,9 @@ body {
 .board-add-btn:hover {
   cursor: pointer;
   background-color: var(--main-color);
+}
+#none {
+  display: none;
 }
 .board {
   background-color: var(--secondary-color);
@@ -94,16 +100,16 @@ body {
   flex-direction: column;
   justify-self: center;
   width: 350px;
-  height: fit-content;
   background-color: var(--main-color);
   padding-bottom: 1px;
-  max-height: 98%;
 }
 .list {
   display: flex;
   flex-direction: column;
+  padding-bottom: 5px;
   overflow-y: auto;
   overflow-x: hidden;
+  max-height: 98%;
 }
 .add-list-btn:hover {
   cursor: pointer;
@@ -112,19 +118,15 @@ body {
 }
 .add-list-btn {
   display: flex;
-  padding: 20px 10px;
   border: 2px solid var(--secondary-color);
-}
-.add-list-btn > div {
+  align-items: center;
+  text-align: center;
   display: flex;
   margin: 0 auto;
   font-size: 1.5rem;
   height: fit-content;
   font-weight: 1000;
   align-items: center;
-}
-.add-list-btn > div > div {
-  font-size: 2rem;
 }
 .list-title {
   display: flex;
@@ -150,9 +152,8 @@ body {
 .list-item {
   font-size: 1rem;
   height: fit-content;
-  margin-bottom: 1%;
   padding: 10px 0px;
-  width: 100%;
+  width: 99%;
   border-radius: 2px;
 }
 .list-item-content {

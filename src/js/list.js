@@ -1,7 +1,8 @@
 import createTask from "./task.js";
 
-const createList = (name) => {
+const createList = (id, name) => {
   let listName = name;
+  let listId = id;
   let taskList = [];
   let tasklistIndex = 0;
   const addTask = (name, description, dateToComplete) => {
@@ -20,11 +21,12 @@ const createList = (name) => {
       task.getId() !== id;
     });
   };
+  const getId = () => listId;
   const getName = () => listName;
   const getTaskList = () => taskList;
   const isEmpty = () => taskList.length === 0;
 
-  return { addTask, removeTask, getName, getTaskList, isEmpty };
+  return { getId, addTask, removeTask, getName, getTaskList, isEmpty };
 };
 
 export default createList;
