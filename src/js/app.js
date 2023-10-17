@@ -4,67 +4,94 @@ import { createElement, appendInOrder } from "./helpers/helpers.js";
 import createList from "./list.js";
 let boardWrapper = document.getElementById("board-wrapper");
 let addBoardBtn = boardWrapper.lastChild.previousSibling;
+let boardIndex = 0;
+let boardArray = [];
 addBoardBtn.addEventListener("click", () => {
-  createBoard();
+  boardArray.push(board(boardIndex, "Board 1"));
+  boardArray[boardIndex].createBoard();
+  boardIndex++;
 });
+const board = (id, name) => {
+  let boardName = name;
+  let lists = [];
+  let listIndex = 0;
+  let boardId = id;
 
-function createBoard() {
-  const newBoard = document.createElement("div");
-  newBoard.setAttribute("class", "board");
+  function addList(target, name) {
+    lists.push(createList(listIndex, name));
+    const parent = document.getElementById(target);
+    const listTitle = createElement("div", { class: "list-title" });
+    const contentMenu = createElement("div", { class: "content-menu" });
+    const dot = createElement("div", { class: "dot" });
+    appendInOrder(contentMenu, dot, dot.cloneNode(true), dot.cloneNode(true));
+    appendInOrder(
+      listTitle,
+      document.createTextNode(lists[listIndex].getName()),
+      contentMenu
+    );
 
-  const addListBtn = document.createElement("div");
-  addListBtn.addEventListener("click", (e) => {
-    e.stopPropagation;
-    addList(e.target);
-  });
-  addListBtn.setAttribute("class", "lists add-list-btn");
-  addListBtn.textContent = "+ add a new list";
-  newBoard.appendChild(addListBtn);
-  const newBoardTitle = document.createElement("div");
-  newBoardTitle.setAttribute("class", "board-name");
-  newBoardTitle.textContent = "New Board";
-  boardWrapper.insertBefore(newBoardTitle, addBoardBtn);
-  boardWrapper.insertBefore(newBoard, addBoardBtn);
-  console.log("creating new board");
-}
+    const AddTaskBtn = createElement("div", {
+      class: "list-item add-task-btn",
+    });
 
-function addList(target) {
-  const board = target.parentNode;
-  const nodeToInsertBefore = target;
-  console.log(target);
-  console.log(nodeToInsertBefore);
-  const listTitle = createElement("div", { class: "list-title" });
-  const contentMenu = createElement("div", { class: "content-menu" });
-  const dot = createElement("div", { class: "dot" });
-  appendInOrder(contentMenu, dot, dot.cloneNode(true), dot.cloneNode(true));
-  appendInOrder(listTitle, document.createTextNode("List Name"), contentMenu);
+    const addBtnContent = createElement("div", {
+      class: "list-item-content",
+      data: `${listIndex}`,
+    });
+    addBtnContent.addEventListener("click", (e) => {
+      document;
+      e.target.parentNode.parentNode.lastChild.appendChild(
+        createListItem("Task")
+      );
+    });
+    appendInOrder(
+      addBtnContent,
+      createElement("div", { class: "content-check-box" }).appendChild(
+        document.createTextNode("+")
+      ),
+      createElement("div", { class: "content-text" }).appendChild(
+        document.createTextNode(" add a task")
+      )
+    );
+    AddTaskBtn.appendChild(addBtnContent);
+    const listsContainer = createElement("div", {
+      class: "lists",
+      id: `lists-${boardIndex}-${listIndex}`,
+    });
+    appendInOrder(
+      listsContainer,
+      listTitle,
+      AddTaskBtn,
+      createElement("div", { class: "list", id: "list-0" })
+    );
 
-  const AddTaskBtn = createElement("div", {
-    class: "list-item add-task-btn",
-  });
-  AddTaskBtn.addEventListener("click", () => {
-    document.getElementById("list-0").appendChild(createListItem("Task 1"));
-  });
-  const addBtnContent = createElement("div", { class: "list-item-content" });
-  appendInOrder(
-    addBtnContent,
-    createElement("div", { class: "content-check-box" }).appendChild(
-      document.createTextNode("+")
-    ),
-    createElement("div", { class: "content-text" }).appendChild(
-      document.createTextNode(" add a task")
-    )
-  );
-  AddTaskBtn.appendChild(addBtnContent);
-  const lists = createElement("div", { class: "lists" });
-  appendInOrder(
-    lists,
-    listTitle,
-    AddTaskBtn,
-    createElement("div", { class: "list", id: "list-0" })
-  );
-  board.insertBefore(lists, nodeToInsertBefore);
-}
+    parent.insertBefore(listsContainer, parent.lastChild);
+    listIndex++;
+  }
+
+  function createBoard() {
+    const newBoard = createElement("div", {
+      class: "board",
+      id: `board-${boardId}`,
+    });
+    const addListBtn = document.createElement("div");
+    addListBtn.addEventListener("click", (e) => {
+      e.stopPropagation;
+      boardArray[boardId].addList(`board-${boardId}`, "list name");
+    });
+    addListBtn.setAttribute("class", "lists add-list-btn");
+    addListBtn.textContent = "+ add a new list";
+    newBoard.appendChild(addListBtn);
+    const newBoardTitle = document.createElement("div");
+    newBoardTitle.setAttribute("class", "board-name");
+    newBoardTitle.textContent = `${boardName}`;
+    boardWrapper.insertBefore(newBoardTitle, addBoardBtn);
+    boardWrapper.insertBefore(newBoard, addBoardBtn);
+    console.log("creating new board");
+  }
+
+  return { createBoard, addList, lists, boardName };
+};
 
 function createListItem(text) {
   const listItemContainer = createElement("div", { class: "list-item" });
@@ -80,15 +107,3 @@ function createListItem(text) {
   listItemContainer.appendChild(listItemContent);
   return listItemContainer;
 }
-const board = (name) => {
-  let boardName = name;
-  let lists = [];
-  let listIndex = 0;
-
-  const addList = (listName) => {
-    lists.push(createList(listIndex, listName));
-    listIndex++;
-  };
-
-  return { addList, lists, boardName };
-};

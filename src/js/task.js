@@ -1,3 +1,4 @@
+import { createElement, appendInOrder } from "./helpers/helpers.js";
 const createTask = (id, name, description = "", dateToComplete = "") => {
   const taskId = id;
   let taskName = name;
@@ -33,4 +34,22 @@ const createTask = (id, name, description = "", dateToComplete = "") => {
   };
 };
 
-export default createTask;
+const renderListItem = (task) => {
+  const listItemContent = createElement("div", { class: "list-item-content" });
+  const contentCheckBox = createElement("div", { class: "content-check-box" });
+  const contentText = createElement("div", { class: "content-text" });
+  contentText.textContent = task.getName();
+  const contentDescription = createElement("div", {
+    class: "content-description",
+  });
+  contentDescription.textContent = task.getDescription();
+  appendInOrder(contentText, contentDescription);
+  const contentMenu = createElement("div", { class: "content-menu" });
+  const dot = createElement("div", { class: "dot" });
+
+  appendInOrder(contentMenu, dot, dot.cloneNode(true), dot.cloneNode(true));
+  appendInOrder(listItemContent, contentCheckBox, contentText, contentMenu);
+  const listItem = createElement("div", { class: "list-item" });
+  return appendInOrder(listItem, listItemContent);
+};
+export default { createTask, renderListItem };

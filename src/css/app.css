@@ -92,6 +92,7 @@ body {
   grid-template-rows: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  padding-bottom: 20px;
 }
 
 .lists {
