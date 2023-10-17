@@ -120,7 +120,7 @@ body {
   background-color: var(--main-color);
   padding-bottom: 1px;
   height: fit-content;
-  max-height: 98%;
+  max-height: 100%;
 }
 .list {
   display: flex;
@@ -128,7 +128,8 @@ body {
   padding-bottom: 5px;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 98%;
+  height: fit-content;
+  max-height: 100%;
 }
 .add-list-btn:hover {
   cursor: pointer;
