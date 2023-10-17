@@ -32,7 +32,7 @@ document.getElementById("modalContent").addEventListener("click", (e) => {
 document.getElementById("boardForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(e.target);
-  boardArray.push(board(boardIndex, data.get("Name")));
+  boardArray.push(board(boardIndex, data.get("Name") || "New Board"));
   boardArray[boardIndex].createBoard();
   boardIndex++;
   e.target.reset();
@@ -63,24 +63,31 @@ const board = (id, name) => {
       class: "list-item add-task-btn",
     });
 
-    const addBtnContent = createElement("div", {
+    const addBtnContent = createElement("form", {
       class: "list-item-content",
       data: `${listIndex}`,
     });
-    addBtnContent.addEventListener("click", (e) => {
-      document;
-      e.target.parentNode.parentNode.lastChild.appendChild(
-        createListItem("Task")
+    addBtnContent.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const listOfTasks = e.target.parentNode.parentNode.lastChild;
+      listOfTasks.insertBefore(
+        createListItem(data.get("task")),
+        listOfTasks.firstChild
       );
+      e.target.reset();
     });
     appendInOrder(
       addBtnContent,
       createElement("div", { class: "content-check-box" }).appendChild(
         document.createTextNode("+")
       ),
-      createElement("div", { class: "content-text" }).appendChild(
-        document.createTextNode(" add a task")
-      )
+      createElement("input", {
+        class: "content-text",
+        placeholder: "add a task",
+        type: "text",
+        name: "task",
+      })
     );
     AddTaskBtn.appendChild(addBtnContent);
     const listsContainer = createElement("div", {
@@ -102,28 +109,36 @@ const board = (id, name) => {
     const newBoard = createElement("div", {
       class: "board",
       id: `board-${boardId}`,
+      data: `${boardId}`,
     });
     const addListBtn = document.createElement("div");
     addListBtn.addEventListener("click", (e) => {
       e.stopPropagation;
-      document.getElementById("newListForm").style.display = "block";
+      console.log(e.target.parentNode);
+      let id = e.target.parentNode.getAttribute("data");
+      console.log(id);
+      console.log(boardId);
+      document.getElementById(`newListForm${id}`).style.display = "block";
       document
-        .getElementById("newListInput")
+        .getElementById(`newListInput${id}`)
         .addEventListener("focusout", (e) => {
           e.target.value = "";
-          document.getElementById("newListForm").style.display = "none";
+          document.getElementById(`newListForm${id}`).style.display = "none";
         });
-      document.getElementById("newListInput").focus();
+      document.getElementById(`newListInput${id}`).focus();
     });
     addListBtn.setAttribute("class", "lists add-list-btn");
     addListBtn.textContent = "+ add a new list";
 
-    const listForm = createElement("form", { id: "newListForm" });
+    const listForm = createElement("form", {
+      id: `newListForm${boardId}`,
+      style: "display:none",
+    });
     const textInput = createElement("input", {
       type: "text",
       name: "Name",
       placeholder: "List Name",
-      id: "newListInput",
+      id: `newListInput${boardId}`,
     });
     listForm.appendChild(textInput);
     addListBtn.appendChild(listForm);
@@ -131,9 +146,13 @@ const board = (id, name) => {
     listForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const data = new FormData(e.target);
-      boardArray[boardId].addList(`board-${boardId}`, data.get("Name"));
+      boardArray[boardId].addList(
+        `board-${boardId}`,
+        data.get("Name") || "New List"
+      );
       e.target.reset();
-      document.getElementById("newListForm").style.display = "none";
+      e.target.style.display = "none";
+      return true;
     });
 
     newBoard.appendChild(addListBtn);
@@ -151,7 +170,8 @@ const board = (id, name) => {
   return { createBoard, addList, lists, boardName };
 };
 
-function createListItem(text) {
+function createListItem(inputText) {
+  let text = inputText || "New Task";
   const listItemContainer = createElement("div", { class: "list-item" });
   const listItemContent = createElement("div", { class: "list-item-content" });
   const contentMenu = createElement("div", { class: "content-menu" });
