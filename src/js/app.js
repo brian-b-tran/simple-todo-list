@@ -6,11 +6,40 @@ let boardWrapper = document.getElementById("board-wrapper");
 let addBoardBtn = boardWrapper.lastChild.previousSibling;
 let boardIndex = 0;
 let boardArray = [];
-addBoardBtn.addEventListener("click", () => {
-  boardArray.push(board(boardIndex, "Board 1"));
+
+let isModalOpen = false;
+
+function toggleModal() {
+  if (isModalOpen) {
+    document.getElementById("modal-wrapper").style.display = "none";
+  } else {
+    document.getElementById("modal-wrapper").style.display = "flex";
+  }
+  isModalOpen = !isModalOpen;
+}
+addBoardBtn.addEventListener("click", (e) => {
+  toggleModal();
+  document.getElementById("board-name-input").focus();
+});
+document.getElementById("modal-wrapper").addEventListener("click", (e) => {
+  toggleModal();
+});
+document.getElementById("modalContent").addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+document.getElementById("boardForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const data = new FormData(e.target);
+  boardArray.push(board(boardIndex, data.get("Name")));
   boardArray[boardIndex].createBoard();
   boardIndex++;
+  e.target.reset();
+  toggleModal();
+  return true;
 });
+
 const board = (id, name) => {
   let boardName = name;
   let lists = [];
@@ -77,17 +106,46 @@ const board = (id, name) => {
     const addListBtn = document.createElement("div");
     addListBtn.addEventListener("click", (e) => {
       e.stopPropagation;
-      boardArray[boardId].addList(`board-${boardId}`, "list name");
+      document.getElementById("newListForm").style.display = "block";
+      document
+        .getElementById("newListInput")
+        .addEventListener("focusout", (e) => {
+          e.target.value = "";
+          document.getElementById("newListForm").style.display = "none";
+        });
+      document.getElementById("newListInput").focus();
     });
     addListBtn.setAttribute("class", "lists add-list-btn");
     addListBtn.textContent = "+ add a new list";
+
+    const listForm = createElement("form", { id: "newListForm" });
+    const textInput = createElement("input", {
+      type: "text",
+      name: "Name",
+      placeholder: "List Name",
+      id: "newListInput",
+    });
+    listForm.appendChild(textInput);
+    addListBtn.appendChild(listForm);
+
+    listForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      boardArray[boardId].addList(`board-${boardId}`, data.get("Name"));
+      e.target.reset();
+      document.getElementById("newListForm").style.display = "none";
+    });
+
     newBoard.appendChild(addListBtn);
     const newBoardTitle = document.createElement("div");
     newBoardTitle.setAttribute("class", "board-name");
     newBoardTitle.textContent = `${boardName}`;
+    const contentMenu = createElement("div", { class: "content-menu" });
+    const dot = createElement("div", { class: "dot" });
+    appendInOrder(contentMenu, dot, dot.cloneNode(true), dot.cloneNode(true));
+    newBoardTitle.appendChild(contentMenu);
     boardWrapper.insertBefore(newBoardTitle, addBoardBtn);
     boardWrapper.insertBefore(newBoard, addBoardBtn);
-    console.log("creating new board");
   }
 
   return { createBoard, addList, lists, boardName };

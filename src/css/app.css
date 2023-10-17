@@ -58,7 +58,23 @@ body {
   height: fit-content;
   font-size: 2rem;
   color: var(--font-color);
+  display: inline-flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  margin-left: 20px;
 }
+.board-name .content-menu {
+  display: none;
+  margin-right: 0;
+  margin-left: 0;
+}
+.board-name:hover {
+  .content-menu {
+    display: block;
+  }
+}
+
 .board-add-btn {
   height: fit-content;
   font-size: 2rem;
@@ -237,4 +253,42 @@ body {
   font-size: 1.5rem;
   margin-left: 0.5rem;
   margin-right: 0.3rem;
+}
+
+.modal-content {
+  z-index: 1;
+  width: 20%;
+  height: 10%;
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 80px;
+  border-radius: 10px;
+  position: absolute;
+}
+.modal-content input {
+  z-index: 1;
+  border-radius: 5px;
+  width: 100%;
+  outline: none;
+}
+#modal-wrapper {
+  z-index: 0;
+  display: none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #36393b65;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+}
+input {
+  outline: none;
+}
+
+#newListForm {
+  display: none;
 }
