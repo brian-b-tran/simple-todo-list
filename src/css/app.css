@@ -194,7 +194,6 @@ body {
   display: flex;
   width: 90%;
 }
-
 .content-menu {
   margin-left: auto;
   flex-direction: column;
@@ -226,7 +225,11 @@ body {
 .list-item:hover {
   background-color: #36393b;
 }
-
+.completed {
+  .circle {
+    background-color: var(--font-color);
+  }
+}
 .strike-out {
   text-decoration: line-through;
 }
