@@ -12,9 +12,20 @@ const board = (id, name) => {
     render.createListComponent(boardID, lists[listIndex]);
     listIndex++;
   };
+
+  const removeList = (listID) => {
+    lists.filter((list) => {
+      console.log(
+        `removing list: ${lists.findIndex((list) => {
+          list.getID();
+        })}`
+      );
+      list.getID() !== listID;
+    });
+  };
   const getName = () => boardName;
   const getID = () => boardID;
-  return { addList, lists, getName, getID };
+  return { addList, removeList, lists, getName, getID };
 };
 
 export default board;

@@ -4,7 +4,7 @@ const renderer = () => {
   const boardWrapper = document.getElementById("board-wrapper");
   const addBoardBtn = boardWrapper.lastChild.previousSibling;
   let isModalOpen = false;
-
+  //Modal Stuff
   function toggleModal() {
     if (isModalOpen) {
       document.getElementById("modal-wrapper").style.display = "none";
@@ -13,7 +13,6 @@ const renderer = () => {
     }
     isModalOpen = !isModalOpen;
   }
-
   addBoardBtn.addEventListener("click", (e) => {
     toggleModal();
     document.getElementById("board-name-input").focus();
@@ -25,6 +24,7 @@ const renderer = () => {
     e.preventDefault();
     e.stopPropagation();
   });
+  //
 
   const createBoardComponent = (board) => {
     const newBoard = createElement("div", {
@@ -40,6 +40,7 @@ const renderer = () => {
     boardWrapper.insertBefore(newBoardTitle, addBoardBtn);
     boardWrapper.insertBefore(newBoard, addBoardBtn);
   };
+
   const createAddListBtnComponent = (board) => {
     const addListBtn = createElement("div", {
       class: "lists add-list-btn",
@@ -162,7 +163,7 @@ const renderer = () => {
     board.insertBefore(listsContainer, board.lastChild);
   };
 
-  function createListItemComponent(listID, task) {
+  const createListItemComponent = (listID, task) => {
     let text = task.getName();
     const listItemContainer = createElement("div", {
       class: "list-item",
@@ -183,7 +184,7 @@ const renderer = () => {
       );
     listItemContainer.appendChild(listItemContent);
     return listItemContainer;
-  }
+  };
 
   return {
     createListComponent,
