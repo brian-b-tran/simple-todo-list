@@ -14,5 +14,4 @@ document.getElementById("boardForm").addEventListener("submit", (e) => {
   boardIndex++;
   e.target.reset();
   render.toggleModal();
-  return true;
 });

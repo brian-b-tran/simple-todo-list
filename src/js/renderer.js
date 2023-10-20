@@ -74,7 +74,7 @@ const renderer = () => {
     listForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const data = new FormData(e.target);
-      board.addList(`${board.getID()}`, data.get("Name") || "New List");
+      board.addList(`${board.getID()}`, data.get("Name"));
       e.target.reset();
       e.target.style.display = "none";
       return true;
@@ -85,24 +85,60 @@ const renderer = () => {
 
   const createMenuComponent = (dataID) => {
     const Menu = createElement("div", {
-      class: "content-menu",
-      data: dataID || "-",
+      class: "content-menu hide",
+      data: dataID,
     });
     const dots = [
       createElement("div", { class: "dot" }),
       createElement("div", { class: "dot" }),
       createElement("div", { class: "dot" }),
     ];
+    const dropDown = createElement("div", {
+      class: "dropDown hide",
+    });
+    const dropDownItem = createElement("button", {
+      class: "drownDownButton",
+      data: `${dataID}`,
+    });
+    dropDownItem.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = e.target.getAttribute("data");
+      const itemToRemove = document.getElementById(`${id}`);
+      if (id.length === 1) {
+        itemToRemove.previousSibling.remove();
+      }
+      itemToRemove.remove();
+    });
+    dropDownItem.textContent = "Delete";
+    dropDown.appendChild(dropDownItem);
     dots.forEach((dot) => {
       dot.addEventListener("click", (e) => {
         e.stopPropagation();
         e.preventDefault();
+        e.target.parentNode.classList.remove("hide");
+        e.target.parentNode.classList.add("show");
+        e.target.parentNode.lastChild.classList.remove("hide");
+        e.target.parentNode.lastChild.classList.add("show");
       });
     });
     Menu.addEventListener("click", (e) => {
       e.stopPropagation();
+      e.preventDefault();
+      e.target.classList.remove("hide");
+      e.target.classList.add("show");
+      e.target.lastChild.classList.remove("hide");
+      e.target.lastChild.classList.add("show");
     });
-    appendInOrder(Menu, dots[0], dots[1], dots[2]);
+    window.onclick = (e) => {
+      var dropDowns = document.getElementsByClassName("content-menu");
+      for (let i = 0; i < dropDowns.length; i++) {
+        dropDowns[i].classList.remove("show");
+        dropDowns[i].classList.add("hide");
+        dropDowns[i].lastChild.classList.remove("show");
+        dropDowns[i].lastChild.classList.add("hide");
+      }
+    };
+    appendInOrder(Menu, dots[0], dots[1], dots[2], dropDown);
     return Menu;
   };
 
@@ -180,7 +216,7 @@ const renderer = () => {
         listItemContent,
         checkBox,
         contentText,
-        createMenuComponent()
+        createMenuComponent(`${listID}-${task.getID()}`)
       );
     listItemContainer.appendChild(listItemContent);
     return listItemContainer;
