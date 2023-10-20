@@ -331,6 +331,5 @@ input::placeholder {
   position: fixed;
   margin-left: 20px;
   margin-top: -20px;
-
   flex-direction: column;
 }
