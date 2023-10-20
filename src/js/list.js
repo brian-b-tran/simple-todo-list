@@ -25,6 +25,9 @@ const createList = (id, name) => {
   const getTaskList = () => taskList;
   const isEmpty = () => taskList.length === 0;
   const getNewestTask = () => taskList[tasklistIndex - 1];
+  const updateName = (newName) => {
+    listName = newName;
+  };
   return {
     getID,
     addTask,
@@ -33,6 +36,7 @@ const createList = (id, name) => {
     getTaskList,
     isEmpty,
     getNewestTask,
+    updateName,
   };
 };
 

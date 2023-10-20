@@ -23,9 +23,12 @@ const board = (id, name) => {
       list.getID() !== listID;
     });
   };
+  const updateName = (newName) => {
+    boardName = newName;
+  };
   const getName = () => boardName;
   const getID = () => boardID;
-  return { addList, removeList, lists, getName, getID };
+  return { updateName, addList, removeList, lists, getName, getID };
 };
 
 export default board;

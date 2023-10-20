@@ -21,6 +21,9 @@ const createTask = (id, name, description = "", dateToComplete = "") => {
   const toggleComplete = () => {
     taskComplete = !taskComplete;
   };
+  const updateName = (newName) => {
+    taskName = newName;
+  };
   return {
     getID,
     getName,
