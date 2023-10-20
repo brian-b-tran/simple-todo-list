@@ -1,7 +1,7 @@
 import createList from "./list.js";
 import renderer from "./renderer.js";
-const board = (id, name) => {
-  let boardName = name;
+const createBoard = (id, name) => {
+  let boardName = name || id ? `New Board (${id + 1})` : `New Board`;
   let lists = [];
   let listIndex = 0;
   let boardID = id;
@@ -31,4 +31,4 @@ const board = (id, name) => {
   return { updateName, addList, removeList, lists, getName, getID };
 };
 
-export default board;
+export default createBoard;

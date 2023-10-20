@@ -1,8 +1,11 @@
 import { createElement, appendInOrder } from "./helpers/helpers.js";
-
+import createBoard from "./board.js";
 const renderer = () => {
   const boardWrapper = document.getElementById("board-wrapper");
   const addBoardBtn = boardWrapper.lastChild.previousSibling;
+
+  let boardArray = [];
+  let boardIndex = 0;
   let isModalOpen = false;
   //Modal Stuff
   function toggleModal() {
@@ -26,7 +29,9 @@ const renderer = () => {
   });
   //
 
-  const createBoardComponent = (board) => {
+  const createBoardComponent = (boardName) => {
+    const board = createBoard(boardIndex, boardName);
+    boardArray.push(board);
     const newBoard = createElement("div", {
       class: "board",
       id: `${board.getID()}`,
@@ -39,6 +44,8 @@ const renderer = () => {
     newBoardTitle.appendChild(createMenuComponent(board.getID()));
     boardWrapper.insertBefore(newBoardTitle, addBoardBtn);
     boardWrapper.insertBefore(newBoard, addBoardBtn);
+
+    boardIndex++;
   };
 
   const createAddListBtnComponent = (board) => {
@@ -63,12 +70,14 @@ const renderer = () => {
     const listForm = createElement("form", {
       id: `newListForm${board.getID()}`,
       style: "display:none",
+      autocomplete: "off",
     });
     const textInput = createElement("input", {
       type: "text",
       name: "Name",
       placeholder: "List Name",
       id: `newListInput${board.getID()}`,
+      autocomplete: "off",
     });
     listForm.appendChild(textInput);
     listForm.addEventListener("submit", (e) => {
@@ -96,11 +105,11 @@ const renderer = () => {
     const dropDown = createElement("div", {
       class: "dropDown hide",
     });
-    const dropDownItem = createElement("button", {
+    const dropDownItemDelete = createElement("button", {
       class: "drownDownButton",
       data: `${dataID}`,
     });
-    dropDownItem.addEventListener("click", (e) => {
+    dropDownItemDelete.addEventListener("click", (e) => {
       e.stopPropagation();
       const id = e.target.getAttribute("data");
       const itemToRemove = document.getElementById(`${id}`);
@@ -109,8 +118,20 @@ const renderer = () => {
       }
       itemToRemove.remove();
     });
-    dropDownItem.textContent = "Delete";
-    dropDown.appendChild(dropDownItem);
+    dropDownItemDelete.textContent = "Delete";
+
+    const dropDownItemEdit = createElement("button", {
+      class: "drownDownButton",
+      data: `${dataID}`,
+    });
+    dropDownItemEdit.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = e.target.getAttribute("data");
+      const itemToEdit = document.getElementById(`${id}`);
+    });
+    dropDownItemEdit.textContent = "Edit";
+    dropDown.appendChild(dropDownItemEdit);
+    dropDown.appendChild(dropDownItemDelete);
     dots.forEach((dot) => {
       dot.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -118,7 +139,7 @@ const renderer = () => {
         e.target.parentNode.classList.remove("hide");
         e.target.parentNode.classList.add("show");
         e.target.parentNode.lastChild.classList.remove("hide");
-        e.target.parentNode.lastChild.classList.add("show");
+        e.target.parentNode.lastChild.classList.add("show-flex");
       });
     });
     Menu.addEventListener("click", (e) => {
@@ -127,14 +148,14 @@ const renderer = () => {
       e.target.classList.remove("hide");
       e.target.classList.add("show");
       e.target.lastChild.classList.remove("hide");
-      e.target.lastChild.classList.add("show");
+      e.target.lastChild.classList.add("show-flex");
     });
     window.onclick = (e) => {
       var dropDowns = document.getElementsByClassName("content-menu");
       for (let i = 0; i < dropDowns.length; i++) {
         dropDowns[i].classList.remove("show");
         dropDowns[i].classList.add("hide");
-        dropDowns[i].lastChild.classList.remove("show");
+        dropDowns[i].lastChild.classList.remove("show-flex");
         dropDowns[i].lastChild.classList.add("hide");
       }
     };
@@ -158,6 +179,7 @@ const renderer = () => {
     const taskBtnContent = createElement("form", {
       class: "list-item-content",
       data: `${list.getID()}`,
+      autocomplete: "off",
     });
     taskBtnContent.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -181,6 +203,7 @@ const renderer = () => {
         placeholder: "add a task",
         type: "text",
         name: "task",
+        autocomplete: "off",
       })
     );
     AddTaskBtn.appendChild(taskBtnContent);

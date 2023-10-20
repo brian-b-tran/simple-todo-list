@@ -1,6 +1,6 @@
 const createTask = (id, name, description = "", dateToComplete = "") => {
   const taskId = id;
-  let taskName = name || "New Task";
+  let taskName = name || id ? `New Task (${id + 1})` : `New Task`;
   let taskDescription = description;
   let taskDateToComplete = dateToComplete;
   let taskComplete = false;
