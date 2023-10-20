@@ -40,8 +40,9 @@ const renderer = () => {
     newBoard.appendChild(createAddListBtnComponent(board));
     const newBoardTitle = document.createElement("div");
     newBoardTitle.setAttribute("class", "board-name");
-    newBoardTitle.textContent = `${board.getName()}`;
-    newBoardTitle.appendChild(createMenuComponent(board.getID()));
+    const text = createElement("div", { class: "board-title" });
+    text.textContent = `${board.getName()}`;
+    appendInOrder(newBoardTitle, text, createMenuComponent(board.getID()));
     boardWrapper.insertBefore(newBoardTitle, addBoardBtn);
     boardWrapper.insertBefore(newBoard, addBoardBtn);
 
@@ -126,8 +127,67 @@ const renderer = () => {
     });
     dropDownItemEdit.addEventListener("click", (e) => {
       e.stopPropagation();
+      e.target.parentNode.classList.remove("show-flex");
+      e.target.parentNode.classList.add("hide");
       const id = e.target.getAttribute("data");
       const itemToEdit = document.getElementById(`${id}`);
+      const newNameForm = createElement("form", {
+        class: "",
+        autocomplete: "off",
+      });
+      let input = createElement("input", {
+        class: "newNameInput ",
+        name: "name",
+      });
+      if (id.length === 1) {
+        const newItemToEdit = itemToEdit.previousSibling;
+        const title = newItemToEdit.firstChild;
+        input.classList.add("board-name-input");
+        input.setAttribute("value", `${title.textContent}`);
+        title.classList.add("hide");
+        newNameForm.appendChild(input);
+        newItemToEdit.insertBefore(newNameForm, newItemToEdit.lastChild);
+      }
+      if (id.length === 3) {
+        const title = itemToEdit.firstChild.firstChild;
+        input.classList.add("list-name-input");
+        input.setAttribute("value", `${title.textContent}`);
+        title.classList.add("hide");
+        newNameForm.appendChild(input);
+        itemToEdit.firstChild.insertBefore(
+          newNameForm,
+          itemToEdit.firstChild.lastChild
+        );
+      }
+      if (id.length === 5) {
+        const title = itemToEdit.lastChild.lastChild.previousSibling;
+        console.log(title);
+        input.classList.add("task-name-input");
+        input.setAttribute("value", `${title.textContent}`);
+        title.classList.add("hide");
+        newNameForm.appendChild(input);
+        itemToEdit.firstChild.insertBefore(
+          newNameForm,
+          itemToEdit.firstChild.lastChild
+        );
+      }
+      input.setSelectionRange(0, input.value.length);
+      input.focus();
+      newNameForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const data = new FormData(e.target);
+        e.target.reset();
+        e.target.previousSibling.textContent = data.get("name");
+        e.target.previousSibling.classList.remove("hide");
+        e.target.classList.add("hide");
+        console.log(e.target);
+      });
+      newNameForm.addEventListener("focusout", (e) => {
+        e.target.parentNode.previousSibling.classList.remove("hide");
+        if (e.target.parentNode) {
+          e.target.parentNode.remove();
+        }
+      });
     });
     dropDownItemEdit.textContent = "Edit";
     dropDown.appendChild(dropDownItemEdit);
@@ -165,10 +225,11 @@ const renderer = () => {
 
   const createListComponent = (boardID, list) => {
     const listTitle = createElement("div", { class: "list-title" });
-
+    const listName = createElement("div", { class: "list-name" });
+    listName.appendChild(document.createTextNode(list.getName()));
     appendInOrder(
       listTitle,
-      document.createTextNode(list.getName()),
+      listName,
       createMenuComponent(`${boardID}-${list.getID()}`)
     );
 
@@ -231,7 +292,9 @@ const renderer = () => {
     const listItemContent = createElement("div", {
       class: "list-item-content",
     });
-    const contentText = createElement("div", { class: "content-text" });
+    const contentText = createElement("div", {
+      class: "content-text show-flex",
+    });
     contentText.appendChild(document.createTextNode(text));
     const checkBox = createElement("div", { class: "content-check-box" });
     checkBox.appendChild(createElement("div", { class: "circle" })),

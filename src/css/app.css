@@ -29,6 +29,7 @@ html,
 body,
 div,
 span,
+form,
 ul {
   margin: 0;
   padding: 0;
@@ -63,6 +64,14 @@ body {
   align-items: center;
   gap: 10px;
   margin-left: 20px;
+}
+.board-name-input {
+  font-size: 2rem;
+  height: fit-content;
+  max-width: 300px;
+}
+.board-title {
+  width: 300px;
 }
 .board-name .content-menu {
   margin-right: 0;
@@ -164,6 +173,10 @@ body {
   padding-top: 10px;
   font-weight: 1000;
 }
+.list-name-input {
+  font-size: 1.5rem;
+  font-weight: 1000;
+}
 .list-title .content-menu {
   margin-right: 20px;
 }
@@ -197,8 +210,13 @@ body {
   border: none;
   margin-right: 1px;
   align-items: center;
-  display: flex;
   width: 90%;
+}
+.task-name-input {
+  width: 90%;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
 }
 .content-menu {
   margin-left: auto;

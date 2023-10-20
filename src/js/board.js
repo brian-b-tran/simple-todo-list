@@ -1,7 +1,11 @@
 import createList from "./list.js";
 import renderer from "./renderer.js";
 const createBoard = (id, name) => {
-  let boardName = name || id ? `New Board (${id + 1})` : `New Board`;
+  let boardName = name
+    ? name
+    : id !== 0
+    ? `New Board (${id + 1})`
+    : `New Board`;
   let lists = [];
   let listIndex = 0;
   let boardID = id;

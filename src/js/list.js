@@ -1,7 +1,7 @@
 import createTask from "./task.js";
 
 const createList = (id, name) => {
-  let listName = name || id ? `New List (${id + 1})` : `New List`;
+  let listName = name ? name : id !== 0 ? `New List (${id + 1})` : `New List`;
   let listId = id;
   let taskList = [];
   let tasklistIndex = 0;
